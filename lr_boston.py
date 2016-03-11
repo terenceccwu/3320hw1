@@ -11,32 +11,49 @@ boston = datasets.load_boston()
 boston_y_train = boston.target[:-20]
 boston_y_test = boston.target[-20:]
 
-
-result = []
-# which feature
-for i_feature in range(0,13):
+def regression(i_feature):
 	# Use only one feature
 	diabetes_X = boston.data[:, np.newaxis, i_feature]
 
 	# Split the data into training/testing sets
-	boston_X_train = diabetes_X[:-20]
-	boston_X_test = diabetes_X[-20:]
+	boston_x_train = diabetes_X[:-20]
+	boston_x_test = diabetes_X[-20:]
 
 	# Create linear regression object
 	model = linear_model.LinearRegression()
 
 	# Train the model using the training sets
-	model.fit(boston_X_train, boston_y_train)
-	print "y = %dx + %d" %(model.coef_, model.intercept_)
+	model.fit(boston_x_train, boston_y_train)
+	# print "y = %.2fx + %.2f" %(model.coef_, model.intercept_)
 	# Explained variance score: score=1 is perfect prediction
-	score = model.score(boston_X_test, boston_y_test)
-	
-	result.append(score)
+	score = model.score(boston_x_test, boston_y_test)
 
-maxindex =  np.argmax(result)
-print "Best fitted feature name is: %s" % boston.feature_names[maxindex]
-print "Best fitted model score is: %f" % result[maxindex]
+	return {'model': model, 'score': score}
 
+# 3.1.2 Find best fitted feature
 
-plt.plot(boston.data[:, np.newaxis, maxindex][-20:], boston_y_test, 'bo')
+result = []
+
+for i_feature in range(0,13):
+	result.append(regression(i_feature)['score'])
+
+bestfit_feature =  np.argmax(result)
+bestfit_name = boston.feature_names[bestfit_feature]
+print "Best fitted feature name is: %s" % bestfit_name
+print "Best fitted model score is: %f" % result[bestfit_feature]
+
+# 3.1.3 Calculate the loss function
+model = regression(bestfit_feature)['model']
+bestfit_test = boston.data[:, np.newaxis, bestfit_feature][-20:]
+predict_y = model.predict(bestfit_test)
+sse = np.mean((predict_y - boston_y_test)**2)
+print "Value of the loss function for the best fitted model is: %f" %sse
+
+# 3.1.4 Plot data
+print predict_y
+plt.scatter(bestfit_test, boston_y_test, c='b')
+plt.plot(bestfit_test, predict_y, 'r-')
+plt.xlabel(bestfit_name)
+plt.ylabel("Boston House Price")
 plt.show()
+
