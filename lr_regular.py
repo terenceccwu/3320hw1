@@ -12,11 +12,15 @@ y_test = [[8.3], [12.5], [15.4], [18.6]]
 
 lr_model = LinearRegression()
 lr_model.fit(X_train, y_train)
-xx = np.linspace(0, 26, 100)
-yy = lr_model.predict(xx.reshape(xx.shape[0], 1))
-lr_score = lr_model.score(X_test, y_test)
-plt.plot(xx, yy)
 
+lr_score = lr_model.score(X_test, y_test)
+print "Linear regression (order 1) model score is: %.3f" %lr_score
+
+xx = np.linspace(0, 26, 100)
+yy = lr_model.predict(xx.reshape(-1, 1))
+plt.plot(xx, yy)
+plt.suptitle('Linear regression (order 1) result.')
+plt.show()
 
 # poly = PolynomialFeatures(degree=5)
 # X_train_poly = poly.fit_transform(X_train)
