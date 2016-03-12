@@ -25,3 +25,8 @@ y = scaler.fit_transform(dropdf['price'].values.reshape(-1,1).astype('float64'))
 x_tran = np.transpose(x)
 theta = np.matmul(np.matmul(np.linalg.inv(np.matmul(x_tran, x)), x_tran), y)
 print "Parameter theta calculated by normal equation: %.3f, %.3f, %.3f" % (theta[0,0], theta[1,0], theta[2,0])
+
+sgd = linear_model.SGDRegressor(loss='squared_loss')
+sgd.fit(standard_x,y.reshape(-1))
+
+print "Parameter theta calculated by SGD: %.3f, %.3f, %.3f" %(sgd.intercept_, sgd.coef_[0], sgd.coef_[1])
