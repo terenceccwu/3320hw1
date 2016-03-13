@@ -30,6 +30,11 @@ def regression(i_feature):
 
 	return {'model': model, 'score': score}
 
+# 3.1.1
+
+print "Number of features in the Boston dataset is: %d" %boston.data.shape[1]
+print "Number of samples in the Boston dataset is: %d" %boston.data.shape[0]
+
 # 3.1.2 Find best fitted feature
 
 result = []
@@ -50,10 +55,9 @@ sse = np.mean((predict_y - boston_y_test)**2)
 print "Value of the loss function for the best fitted model is: %f" %sse
 
 # 3.1.4 Plot data
-print predict_y
 plt.scatter(bestfit_test, boston_y_test, c='b')
 plt.plot(bestfit_test, predict_y, 'r-')
 plt.xlabel(bestfit_name)
 plt.ylabel("Boston House Price")
-plt.show()
-
+plt.savefig('3.1.4.png')
+plt.clf()

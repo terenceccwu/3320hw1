@@ -22,14 +22,16 @@ yy = lr_model.predict(xx.reshape(-1, 1))
 plt.plot(xx, yy, 'b-')
 plt.plot(X_test,y_test,'ro')
 plt.suptitle('Linear regression (order 1) result.')
-print "y = %.2f + %.2fx" %(lr_model.intercept_, lr_model.coef_)
-plt.show()
+# print "y = %.2f + %.2fx" %(lr_model.intercept_, lr_model.coef_)
+plt.savefig('3.3.1.png')
+plt.clf()
 
 # 3.3.2 Poly (order 5)
 poly = PolynomialFeatures(degree=5)
 X_train_poly = poly.fit_transform(X_train)
 X_test_poly = poly.transform(X_test)
 
+lr_model = LinearRegression()
 lr_model.fit(X_train_poly,y_train)
 
 xx_poly = poly.transform(xx.reshape(xx.shape[0], 1))
@@ -37,13 +39,14 @@ yy_poly = lr_model.predict(xx_poly)
 plt.plot(xx,yy_poly,'b-')
 plt.suptitle("Linear regression (order 5) result")
 
-print lr_model.coef_
-print lr_model.intercept_
+# print lr_model.coef_
+# print lr_model.intercept_
 
 print "Linear regression (order 5) score is: %.3f" %lr_model.score(X_test_poly, y_test)
 
 plt.plot(X_test,y_test,'ro')
-plt.show()
+plt.savefig('3.3.2.png')
+plt.clf()
 
 # 3.3.3
 
@@ -51,12 +54,13 @@ ridge_model = Ridge(alpha=1, normalize=False)
 ridge_model.fit(X_train_poly, y_train)
 yy_ridge = ridge_model.predict(xx_poly)
 
-print ridge_model.coef_
-print ridge_model.intercept_
+# print ridge_model.coef_
+# print ridge_model.intercept_
 
 print "Ridge regression (order 5) score is: %.3f" %ridge_model.score(X_test_poly, y_test)
 
 plt.plot(xx,yy_ridge,'b-')
 plt.plot(X_test,y_test,'ro')
 plt.suptitle("Ridge regression (order 5) result")
-plt.show()
+plt.savefig('3.3.3.png')
+plt.clf()

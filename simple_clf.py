@@ -28,7 +28,8 @@ for i in range(0,len(X_test)):
 	else:
 		plt.scatter(X_test[i,0],X_test[i,1], c='b')
 
-plt.show()
+plt.savefig('4.1.png')
+plt.clf()
 
 # 4.2
 counter = 0
